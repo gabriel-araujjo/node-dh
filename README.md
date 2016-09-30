@@ -16,19 +16,22 @@ build on top of [node-chat](https://github.com/gabriel-araujjo/node-chat) implem
 ## Exemple
 
 ```javascript
+
 const Dh = require('dh');
 
 var dh = Dh();
 
 dh.on('secret', function(secret, socket) {
- console.log('receiving new secret from ', socket.remoteAddress());
- console.log(secret.toString('hex'));
+  console.log('receiving new secret from ', socket.remoteAddress());
+  console.log(secret.toString('hex'));
 });
 
-dh.neg({host: '10.51.69.228'}, function(secret, socket) {
- console.log('receiving new secret from ', socket.remoteAddress());
- console.log(secret.toString('hex'));
- });
-
-dh.negotiateSecret();
+dh.negotiateSecret({host: '10.51.69.228'}, function(secret, err) {
+  if (err) {
+    console.log('10.51.69.228 is busy');
+    return;
+  }
+  console.log('receiving new secret from 10.51.69.228');
+  console.log(secret.toString('hex'));
+});
 ```
