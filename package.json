@@ -1,0 +1,18 @@
+{
+  "name": "dh",
+  "version": "1.0.0",
+  "description": "A diffie hellman key negociator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "diffie-helman"
+  ],
+  "author": "Gabriel Araújo <gabriel140492@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bignum": "^0.12.5",
+    "node-rc4-chat": "git+https://github.com/gabriel-araujjo/node-chat.git"
+  }
+}
