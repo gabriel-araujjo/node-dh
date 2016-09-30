@@ -77,7 +77,7 @@ function DiffieHellman(options) {
 
     this.chat = Chat(options);
     this.chat.on('data', ondata.bind(this));
-    this.chat.on('busy', onbusy.bind(this));
+    this.chat.on('close', onclose.bind(this));
 }
 
 util.inherits(DiffieHellman, EventEmitter);
@@ -90,7 +90,7 @@ DiffieHellman.prototype.negotiateSecret = function (dest, cb) {
     this.chat.connect(Object.assign({}, defaults, dest));
 
     if (typeof cb === 'function') {
-        this.once('secret', function (socket, data) {
+        this.once('secret', function (data) {
             cb(data);
         });
         this.once('busy', function() {
@@ -103,19 +103,21 @@ DiffieHellman.prototype.negotiateSecret = function (dest, cb) {
 function clearState(dh) {
     dh.x = undefined;
     dh.negotiating = false;
-    this.chat.disconnect();
+    dh.chat.disconnect();
 }
 
-function ondata(socket, data) {
+function ondata(data, socket) {
     if (!this.negotiating) {
         sendPublicKey(this);
     }
     emitSecretEvent(this, data, socket);
 }
 
-function onbusy() {
-    this.emit('busy');
-    clearState(this);
+function onclose() {
+    if (this.negotiating) {
+        this.emit('busy');
+        clearState(this);
+    }
 }
 
 function sendPublicKey(dh) {
