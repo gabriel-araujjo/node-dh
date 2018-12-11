@@ -12,7 +12,7 @@
   "author": "Gabriel Araújo <gabriel140492@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "bignum": "^0.12.5",
+    "bignum": "^0.13.0",
     "node-rc4-chat": "git+https://github.com/gabriel-araujjo/node-chat.git"
   }
 }
